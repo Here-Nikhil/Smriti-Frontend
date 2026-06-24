@@ -1,0 +1,410 @@
+:root {
+  --bg: #0A0F0D;
+  --surface: rgba(20, 30, 26, 0.55);
+  --accent: #2BBE8C;
+  --accent2: #63D1DE;
+  --text: #E6F2EC;
+  --text-dim: #8FA89C;
+  --error: #E2604F;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: radial-gradient(ellipse at 18% 15%, rgba(43, 190, 140, 0.10), transparent 55%),
+              radial-gradient(ellipse at 82% 85%, rgba(99, 209, 222, 0.08), transparent 55%),
+              var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+}
+
+/* ---------- BOOT SCREEN ---------- */
+#boot-screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+.boot-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 16px 4px rgba(43, 190, 140, 0.7);
+  opacity: 0;
+}
+.boot-text {
+  font-family: 'Inter', monospace;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  opacity: 0.85;
+  min-height: 16px;
+}
+
+/* ---------- LOGIN WRAP / CARD ---------- */
+.login-wrap {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-card {
+  position: relative;
+  background: var(--surface);
+  backdrop-filter: blur(26px) saturate(140%);
+  -webkit-backdrop-filter: blur(26px) saturate(140%);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 28px;
+  padding: 44px 38px;
+  width: 100%;
+  max-width: 390px;
+  box-shadow:
+    0 0 60px rgba(43, 190, 140, 0.10),
+    0 20px 60px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  overflow: hidden;
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.sweep {
+  position: absolute;
+  top: 0; left: -150%;
+  width: 60%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.06), transparent);
+  animation: sweep 7s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes sweep {
+  0% { left: -150%; }
+  35%, 100% { left: 160%; }
+}
+
+/* ---------- BRAND / BRAIN ---------- */
+.brand { text-align: center; margin-bottom: 30px; position: relative; z-index: 1; }
+
+.brain-mark {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.brain-glow {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.16;
+  filter: blur(16px);
+  animation: glowpulse 2.8s ease-in-out infinite;
+}
+@keyframes glowpulse {
+  0%, 100% { opacity: 0.10; transform: scale(0.92); }
+  50% { opacity: 0.24; transform: scale(1.1); }
+}
+.orbital-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(43, 190, 140, 0.28);
+  border-top-color: rgba(99, 209, 222, 0.55);
+  animation: orbit 7s linear infinite;
+}
+@keyframes orbit { to { transform: rotate(360deg); } }
+
+.brain-mark svg { position: relative; z-index: 1; }
+#brain-nodes circle { animation: nodepulse 2.4s ease-in-out infinite; }
+#brain-nodes circle:nth-child(odd) { animation-delay: 0.4s; }
+#brain-nodes circle:nth-child(3n) { animation-delay: 0.8s; }
+@keyframes nodepulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+#brain-lines line {
+  stroke-dasharray: 4 3;
+  animation: travel 3.5s linear infinite;
+}
+@keyframes travel { to { stroke-dashoffset: -200; } }
+
+.brand h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 30px;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+.tagline {
+  font-size: 10.5px;
+  color: var(--text-dim);
+  margin: 6px 0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  opacity: 0.75;
+}
+
+/* ---------- FORM / FLOATING LABEL FIELDS ---------- */
+form { display: flex; flex-direction: column; gap: 20px; position: relative; z-index: 1; }
+
+.field { position: relative; }
+
+.field input {
+  width: 100%;
+  background: rgba(10, 16, 13, 0.55);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 12px;
+  padding: 16px 14px 8px 38px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.field input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(43, 190, 140, 0.12), 0 0 14px rgba(43, 190, 140, 0.25);
+}
+
+.field label {
+  position: absolute;
+  left: 38px;
+  top: 14px;
+  font-size: 14px;
+  color: var(--text-dim);
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label {
+  top: 5px;
+  font-size: 10.5px;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+.field-icon {
+  position: absolute;
+  left: 12px;
+  top: 16px;
+  color: var(--text-dim);
+  pointer-events: none;
+}
+.field input:focus ~ .field-icon { color: var(--accent); }
+
+/* ---------- BUTTON ---------- */
+button#login-btn {
+  margin-top: 8px;
+  position: relative;
+  border: none;
+  border-radius: 12px;
+  padding: 13px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #07140F;
+  cursor: pointer;
+  overflow: hidden;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent));
+  background-size: 200% 100%;
+  animation: gradientshift 4s linear infinite;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+@keyframes gradientshift {
+  0% { background-position: 0% 0; }
+  100% { background-position: 200% 0; }
+}
+button#login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(43, 190, 140, 0.35);
+}
+button#login-btn:active { transform: translateY(0) scale(0.99); }
+
+.btn-rings {
+  display: none;
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+}
+button#login-btn.loading .btn-label { opacity: 0; }
+button#login-btn.loading .btn-rings { display: flex; }
+.btn-rings .ring {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(7,20,15,0.25);
+  border-top-color: #07140F;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.error {
+  color: var(--error);
+  font-size: 12.5px;
+  margin: 0;
+  min-height: 16px;
+  text-align: center;
+}
+
+/* ---------- RECALL / LOADING OVERLAY ---------- */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 10, 9, 0.92);
+  backdrop-filter: blur(6px);
+  z-index: 10;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+.loading-overlay.active { display: flex; }
+
+.recall-graph { position: relative; width: 90px; height: 90px; }
+.recall-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+}
+.r1 { border-top-color: var(--accent); animation: spin 1.6s linear infinite; }
+.r2 { inset: 14px; border-top-color: var(--accent2); animation: spin 2.1s linear infinite reverse; }
+.r3 { inset: 28px; border-top-color: rgba(230,242,236,0.5); animation: spin 1.3s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.recall-title {
+  font-family: 'Inter', monospace;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin: 0;
+}
+.recall-status {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin: 0;
+  min-height: 16px;
+}
+
+/* ---------- SUCCESS FLASH ---------- */
+.flash-overlay {
+  position: fixed;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  z-index: 15;
+  pointer-events: none;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 32px 22px;
+    border-radius: 22px;
+    max-width: 100%;
+  }
+  .brand h1 { font-size: 26px; }
+  .tagline { font-size: 9.5px; letter-spacing: 0.1em; }
+  .brain-mark { width: 56px; height: 56px; }
+  .field input { font-size: 15px; padding: 15px 12px 7px 36px; }
+  .field label { left: 36px; font-size: 13px; top: 13px; }
+  .field input:focus + label,
+  .field input:not(:placeholder-shown) + label { font-size: 10px; }
+  button#login-btn { padding: 14px; font-size: 15px; }
+  .recall-title { font-size: 11px; letter-spacing: 0.14em; }
+  .recall-status { font-size: 12px; text-align: center; padding: 0 24px; }
+  .boot-text { font-size: 11px; letter-spacing: 0.12em; text-align: center; padding: 0 20px; }
+}
+
+@media (max-width: 768px) and (min-width: 481px) {
+  .login-card { max-width: 360px; padding: 38px 30px; }
+}
+
+/* Avoid the floating/sweep/orbit animations feeling janky on small,
+   lower-powered screens, and respect explicit user preference */
+@media (max-width: 480px), (prefers-reduced-motion: reduce) {
+  .login-card { animation: none; }
+  .sweep { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbital-ring, .brain-glow, #brain-nodes circle, #brain-lines line,
+  button#login-btn { animation: none !important; }
+}
+
+/* Prevent iOS auto-zoom on input focus (triggers when font-size < 16px) */
+@media (max-width: 480px) {
+  .field input { font-size: 16px; }
+}
+
+/* Landscape phones: shrink vertical padding so the card doesn't overflow */
+@media (max-height: 480px) and (orientation: landscape) {
+  .login-card { padding: 22px 28px; }
+  .brand { margin-bottom: 16px; }
+  .brain-mark { width: 42px; height: 42px; margin-bottom: 8px; }
+  form { gap: 14px; }
+}
+
+/* ---------- RESPONSIVE: tablets and phones ---------- */
+@media (max-width: 600px) {
+  .login-card {
+    padding: 32px 24px;
+    border-radius: 22px;
+    max-width: 100%;
+  }
+  .brand h1 { font-size: 26px; }
+  .tagline { font-size: 9.5px; letter-spacing: 0.10em; }
+  .brain-mark { width: 58px; height: 58px; }
+  form { gap: 16px; }
+  .field input { padding: 14px 12px 7px 34px; font-size: 14px; }
+  .field label { left: 34px; top: 13px; font-size: 13px; }
+  .field-icon { left: 11px; top: 14px; }
+  button#login-btn { padding: 14px; font-size: 14px; }
+  .recall-graph { width: 70px; height: 70px; }
+  .recall-title { font-size: 11.5px; }
+  .recall-status { font-size: 12px; text-align: center; padding: 0 20px; }
+  .boot-text { font-size: 11px; letter-spacing: 0.14em; text-align: center; padding: 0 16px; }
+}
+
+@media (max-width: 380px) {
+  .login-wrap { padding: 14px; }
+  .login-card { padding: 26px 18px; }
+  .brand h1 { font-size: 23px; }
+}
+
+/* Respect users who've asked for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Prevent iOS zoom-on-focus for inputs (anything under 16px triggers it) */
+@media (max-width: 600px) {
+  .field input { font-size: 16px; }
+}
