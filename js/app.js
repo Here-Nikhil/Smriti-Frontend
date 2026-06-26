@@ -144,6 +144,16 @@ function uploadFilesWithProgress(files) {
     }
   };
 
+  // The progress bar above only tracks the file bytes actually being sent --
+  // once that hits 100%, the server still needs to chunk and embed the PDF,
+  // which has no measurable "progress" of its own. Without this, the modal
+  // would just sit at 100% with no explanation, looking frozen. This makes
+  // that second phase visible instead of silent.
+  xhr.upload.onloadend = () => {
+    filenameEl.textContent = `Processing ${names}... this can take a little while on the free server`;
+    pctEl.textContent = 'Indexing document...';
+  };
+
   xhr.onload = () => {
     overlay.classList.remove('active');
     if (xhr.status === 200) {
