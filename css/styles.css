@@ -408,3 +408,9 @@ button#login-btn.loading .btn-rings { display: flex; }
 @media (max-width: 600px) {
   .field input { font-size: 16px; }
 }
+.demo-hint {
+  text-align: center;
+  font-size: 12px;
+  color: #8FA89C;
+  margin-top: 8px;
+}
